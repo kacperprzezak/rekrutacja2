@@ -7,8 +7,7 @@ LocalMin::LocalMin()
 {
 	initWideValley();
 	findLocalMaxIndexes();
-	printVector("localMaximumIndexesVector");
-
+	
 }
 
 LocalMin::~LocalMin()
@@ -104,62 +103,66 @@ void LocalMin::findLocalMaxIndexes( bool firstCall )
 	//ta czesc funkcji bedzie wywoływana rekurencyjnie	
 	else
 	{
-		unsigned int sizeBeforeCall = localMaximumIndexesVector.size();
+		unsigned int sizeBeforeCall = 0;
+		unsigned int currentSize = 0; 
 		
-		vector<unsigned int> newValueOfIndexVector; 
-		
-		for( auto it = localMaximumIndexesVector.begin(); it !=  localMaximumIndexesVector.end();++it)
+		do
 		{
+			sizeBeforeCall = localMaximumIndexesVector.size();
+		
+			vector<unsigned int> newValueOfIndexVector; 
+		
+			for( auto it = localMaximumIndexesVector.begin(); it !=  localMaximumIndexesVector.end();it++)
+			{
 						
-			/*if( newValueOfIndexVector.size() ==  localMaximumIndexesVector.size() - 2  )
-			{
-				break;
-			}*/
-	
-			//jeżli obaj sąsiedzi są wyźsi to wyrzucamy indeks
-			//konczymy dzialanie gdy nic nie usunaeliśmy
+				
+				//jeżli obaj sąsiedzi są wyźsi to wyrzucamy indeks
+				//konczymy dzialanie gdy nic nie usunaeliśmy
 
-			//pierwszy element
-			if ( *it == 0  &&  sizeBeforeCall >  1 ) 
-			{
-				auto nextIndex = *(it+1);
+				//pierwszy element
+				if ( *it == 0 ) 
+				{
+					auto nextIndex = *(it+1);
  
-				if (  valuesVector[*it] >  valuesVector[nextIndex]  &&  valuesVector[*it] > 0 )
-				{
-					 newValueOfIndexVector.push_back(*it);
+					if (  valuesVector[*it] >  valuesVector[nextIndex]  &&  valuesVector[*it] > 0 )
+					{
+						 newValueOfIndexVector.push_back(*it);
+					}
 				}
-			}
-			//ostatni element	
-			else if ( *it == localMaximumIndexesVector.size() - 1 && localMaximumIndexesVector.size() > 1 )
-			{
-				if ( valuesVector[*it] >  valuesVector[*(it-1)] &&  valuesVector[*it] > 0 ) 
+				//ostatni element	
+				else if ( *it == localMaximumIndexesVector.size() - 1  )
 				{
-					 newValueOfIndexVector.push_back(*it);
-				}			
-			}
+					if ( valuesVector[*it] >  valuesVector[*(it-1)] &&  valuesVector[*it] > 0 ) 
+					{
+						 newValueOfIndexVector.push_back(*it);
+					}			
+				}
 
-			//elementy nie bedace skrajnymi
+				//elementy nie bedace skrajnymi
+				else
+				{
+					if( valuesVector[*it] > valuesVector[ *(it-1) ]  &&  valuesVector[*it] >  valuesVector[ *(it+1) ] )
+					{
+						newValueOfIndexVector.push_back(*it);
+					}	
+				}	
+			}
+			
+			if (sizeBeforeCall != currentSize)
+			{
+				localMaximumIndexesVector.clear();
+				localMaximumIndexesVector =  newValueOfIndexVector;		
+				currentSize =  localMaximumIndexesVector.size();
+			}
 			else
 			{
-				if( valuesVector[*it] > valuesVector[ *(it-1) ]  &&  valuesVector[*it] >  valuesVector[ *(it+1) ] )
-				{
-					newValueOfIndexVector.push_back(*it);
-				}	
-			}	
-		}
-
-		localMaximumIndexesVector.clear();
+				break;
+			}
+			printVector("localMaximumIndexesVector");
 		
-		localMaximumIndexesVector =  newValueOfIndexVector;		
-		
-		unsigned int currentSize =  localMaximumIndexesVector.size();
-
-		if  ( sizeBeforeCall != currentSize )
-		{
-			findLocalMaxIndexes(false);
-			//call itself
-		}
-		//koniec wywoływania rekurencji
+		}while ( sizeBeforeCall != currentSize );
+	
+	
 		
 	}
 
