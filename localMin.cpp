@@ -1,8 +1,13 @@
 #include "localMin.h"
 
+
+using namespace std;
+
 LocalMin::LocalMin()
 {
-	
+	initWideValley();
+	findLocalMinimumIndexes();
+
 }
 
 LocalMin::~LocalMin()
@@ -87,5 +92,32 @@ void LocalMin::findLocalMinimumIndexes()
 
 	}
 } 
+//TODO think about smarter solution (generic,template)
+//aktualnie wystepuje dupikacja kodu :(
+
+void LocalMin::printVector(string vectorNameArg)
+{
+	if( vectorNameArg == "valuesVestor" )
+	{
+		cout<<"\nvalues vector content:\n";
+		
+		for(auto item :valuesVector)
+		{
+			cout<<item<<endl;
+		}
+		cout<<"\nend of values vector\n";
+		
+	}
+	else if( vectorNameArg == "localMaximumIndexesVector" )
+	{	
+		cout<<"\nlocal maximum indexes vector:\n";
+		
+		for(auto item : localMaximumIndexesVector )
+		{
+			cout<<item<<endl;
+		}
+		cout<<"\nend of values vector\n";
+	}	
 
 
+}
