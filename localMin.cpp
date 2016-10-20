@@ -1,5 +1,14 @@
 #include "localMin.h"
 
+LocalMin::LocalMin()
+{
+	
+}
+
+LocalMin::~LocalMin()
+{
+
+}
 
 void LocalMin::initWideValley()
 {
@@ -15,7 +24,7 @@ void LocalMin::initRandomValley()
 {
 	int size = 15;
 	
-	//<0;range-1>
+	//random values : <0;range)
 	unsigned int range = 20;
 
 	int randomValue =0;
@@ -25,7 +34,14 @@ void LocalMin::initRandomValley()
 	for ( int i =0; i < size ; i++)
 	{	
 		randomValue = rand() % range;			
-		
 		valuesVector.push_back(randomValue);	
 	}
 }
+
+void LocalMin::findLocalMinimumIndexes()
+{
+
+
+} 
+
+

@@ -4,19 +4,30 @@
 #include <iterator>
 #include <string.h>
 
-class LocalMin{
+
+using namespace std;
+
+class LocalMin { 
 
 private:
 	
-	std::vector<unsigned int > valuesVector;
-
+	vector<unsigned int > valuesVector;
+	vector<unsigned int > localMinimumIndexesVector;	
 
 public:
+	LocalMin();
+
+	~LocalMin();
 
 	void initWideValley();
 	
 	void initNarrowValley();
 
 	void initRandomValley();
+
+	void findLocalMinimumIndexes();
+
+	
+	
 
 };
