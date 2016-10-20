@@ -50,14 +50,13 @@ void LocalMin::initRandomValley()
 
 void LocalMin::findLocalMaxIndexes( bool firstCall )
 {
-	//znalezienie elementow ktorych sasiedzi maja mniejsze wartosci
-	if( firstCall == true )
-	{	
+	
+	vector<unsigned int > valuesVectorKopia = valuesVector;
+
 	int vectorItemSize = sizeof(unsigned int);
 	
-	//TODO think abot it
-	//auto itemBeforeIterator;
-	//auto itemAfterIterator;
+	int sizeBefore = valuesVector.size();
+
 	
 	for( auto it = valuesVector.begin(); it != valuesVector.end(); it++ )
 	{
@@ -97,80 +96,110 @@ void LocalMin::findLocalMaxIndexes( bool firstCall )
 		}	
 		}
 		printVector("localMaximumIndexesVector");
-		findLocalMaxIndexes(false);
 
-	}
-	//ta czesc funkcji bedzie wywoływana rekurencyjnie	
-	else
-	{
-		unsigned int sizeBeforeCall = 0;
-		unsigned int currentSize = 0; 
+		vector <unsigned int> newValuesVector;
 		
-		do
+		for(auto & index: localMaximumIndexesVector )
 		{
-			sizeBeforeCall = localMaximumIndexesVector.size();
-		
-			vector<unsigned int> newValueOfIndexVector; 
-		
-			for( auto it = localMaximumIndexesVector.begin(); it !=  localMaximumIndexesVector.end();it++)
-			{
-						
-				
-				//jeżli obaj sąsiedzi są wyźsi to wyrzucamy indeks
-				//konczymy dzialanie gdy nic nie usunaeliśmy
+			newValuesVector.push_back(valuesVector[index]);
+		}	
 
-				//pierwszy element
-				if ( *it == 0 ) 
+		valuesVector = newValuesVector;
+		
+		printVector("valuesVector");
+
+	        sizeBefore = valuesVector.size();
+		unsigned int sizeAfter = 0;
+
+		newValuesVector.clear();
+		
+		do{
+			
+		        sizeBefore = valuesVector.size();
+	
+			for(auto iter = valuesVector.begin(); iter != valuesVector.end(); ++iter )
+			{
+				if ( iter == valuesVector.begin() )
 				{
-					auto nextIndex = *(it+1);
- 
-					if (  valuesVector[*it] >  valuesVector[nextIndex]  &&  valuesVector[*it] > 0 )
+					auto nextIter = iter + sizeof(unsigned int); 
+
+					if( *iter > 0 && *iter > *nextIter )
 					{
-						 newValueOfIndexVector.push_back(*it);
+						newValuesVector.push_back(*iter);
 					}
 				}
-				//ostatni element	
-				else if ( *it == localMaximumIndexesVector.size() - 1  )
-				{
-					if ( valuesVector[*it] >  valuesVector[*(it-1)] &&  valuesVector[*it] > 0 ) 
-					{
-						 newValueOfIndexVector.push_back(*it);
-					}			
-				}
 
-				//elementy nie bedace skrajnymi
+				else if ( iter == valuesVector.end() )
+				{
+					auto previousIter = iter - sizeof(unsigned int); 
+
+					if( *iter > 0 && *iter > *previousIter )
+					{
+						newValuesVector.push_back(*iter);
+					}
+				}		
+
 				else
 				{
-					if( valuesVector[*it] > valuesVector[ *(it-1) ]  &&  valuesVector[*it] >  valuesVector[ *(it+1) ] )
+					auto nextIter = iter + sizeof(unsigned int); 
+					auto previousIter = iter - sizeof(unsigned int); 
+
+					if( *iter > *nextIter && *iter > *previousIter )
 					{
-						newValueOfIndexVector.push_back(*it);
-					}	
-				}	
-			}
+						newValuesVector.push_back(*iter);
+					}
+				}
+	
+			}	 
+
+			  
+			sizeAfter = valuesVector.size();
+
+			valuesVector.clear();
+
+			valuesVector= newValuesVector;
+
+		}while( sizeBefore != sizeAfter );
+		printVector("valuesVector");
+		
+		auto  maxElement = max_element(begin(valuesVector),end(valuesVector));		
 			
-			if (sizeBeforeCall != currentSize)
-			{
-				localMaximumIndexesVector.clear();
-				localMaximumIndexesVector =  newValueOfIndexVector;		
-				currentSize =  localMaximumIndexesVector.size();
-			}
-			else
-			{
-				break;
-			}
-			printVector("localMaximumIndexesVector");
-		
-		}while ( sizeBeforeCall != currentSize );
+		unsigned int maxInt =  (unsigned int)maxElement;
 	
-	
+
+		unsigned int maxDolina = 0;
+		unsigned int aktualnaDolina = 0;
+
+		for(int i = 0; i <  valuesVectorKopia.size(); i++ )
+		{
+			 unsigned int item = valuesVectorKopia[i];
+		  
+		  
+			bool itemIsMaximum = binary_search(valuesVector.begin(),valuesVector.end(),item );
 		
-	}
+			if(itemIsMaximum)  
+			{
+			
+			//lewa dolina, mozna by zrobic te funkcjonalnosc lambda
+			//dodajemy kolejno rożnice danego maksimu i aktualnego elementu aż natrafimy na element wiekszy badz rowny naszemu aktulnemu
+			//maksimum lub doldziemy do konca przedzialu
+			//jesli po wykonaniu petli vartosc zmiennej aktualna dolina bedzie wieksza od maksymalna dolina to ustwiamy maxDolina na te wartosc   						
+			for(int j=i;j>=0;j--)
+			{
+				
+			}
+			 
+			//prawa dolina
+			for(int j=i;j<valuesVectorKopia.size();j++)
+			{
+				
+			}			 
+			} 
+		}		
+		}
+						
 
-
-} 
-//TODO think about smarter solution (generic,template)
-//aktualnie wystepuje dupikacja kodu :(
-
+}
 void LocalMin::printVector(string vectorNameArg)
 {
 	if( vectorNameArg == "valuesVector" )

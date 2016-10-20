@@ -14,6 +14,8 @@ private:
 
 	void printVector(string vectorName);
 	
+	unsigned int getPositionOfItem(int valueArg); 
+	
 	vector<unsigned int > valuesVector;
 	
 	vector<unsigned int > localMaximumIndexesVector;	
@@ -30,8 +32,5 @@ public:
 	void initRandomValley();
 
 	void findLocalMaxIndexes( bool firstCall = true );
-
-	
-	
 
 };
