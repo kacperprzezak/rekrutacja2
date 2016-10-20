@@ -1,5 +1,8 @@
 #include <vector>
-
+#include <time.h>
+#include <algorithm>
+#include <iterator>
+#include <string.h>
 
 class LocalMin{
 

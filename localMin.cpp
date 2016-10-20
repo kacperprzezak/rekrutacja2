@@ -8,11 +8,24 @@ void LocalMin::initWideValley()
 
 void LocalMin::initNarrowValley()
 {
-	int a =5;
-
+	valuesVector = { 10,9,5,0,4,9,15,12,111,13,60,21,12,340,133 };
 }
+
 void LocalMin::initRandomValley()
 {
-	int a =5;
+	int size = 15;
+	
+	//<0;range-1>
+	unsigned int range = 20;
 
+	int randomValue =0;
+
+	srand(time(NULL));
+	
+	for ( int i =0; i < size ; i++)
+	{	
+		randomValue = rand() % range;			
+		
+		valuesVector.push_back(randomValue);	
+	}
 }
