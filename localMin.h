@@ -12,7 +12,7 @@ class LocalMin {
 private:
 	
 	vector<unsigned int > valuesVector;
-	vector<unsigned int > localMinimumIndexesVector;	
+	vector<unsigned int > localMaximumIndexesVector;	
 
 public:
 	LocalMin();

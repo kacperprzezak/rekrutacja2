@@ -40,8 +40,52 @@ void LocalMin::initRandomValley()
 
 void LocalMin::findLocalMinimumIndexes()
 {
+	//znalezienie elementow ktorych sasiedzi maja mniejsze wartosci
+	
+	int vectorItemSize = sizeof(unsigned int);
+	
+	//TODO think abot it
+	//auto itemBeforeIterator;
+	//auto itemAfterIterator;
+	
+	for( auto it = valuesVector.begin(); it != valuesVector.end(); it++ )
+	{
+		if(it != valuesVector.begin() &&  it != valuesVector.end() )
+		{
+			auto iterBeforeIterator = it - 1 ;	
+			auto iterAfterIterator  = it + 1;
+		
+			//jezeli oba elememnty sasiadujace sa mniejsze to wybieramy element	
 
+						
+			if( *iterBeforeIterator < *it && *iterAfterIterator < *it )
+			{
+				localMaximumIndexesVector.push_back(it - valuesVector.begin() );	
+			}
 
+		}
+		
+		//dla elementow skrajnych za nieistniejacy element przyjmujemy 0
+		else if( it == valuesVector.begin() )
+		{
+			auto iterAfterIterator  = it + 1;
+	
+			if( *it > 0 && *it > *iterAfterIterator  )
+			{
+				localMaximumIndexesVector.push_back(it - valuesVector.begin() );	
+			} 							
+		}	
+		else
+		{
+			auto iterBeforeIterator  = it - 1;
+	
+			if( *it > 0 && *it > *iterBeforeIterator  )
+			{
+				localMaximumIndexesVector.push_back(it - valuesVector.begin() );	
+			}
+		}	
+
+	}
 } 
 
 
