@@ -164,7 +164,6 @@ void LocalMin::findLocalMaxIndexes( bool firstCall )
 		
 		auto  maxElement = max_element(begin(valuesVector),end(valuesVector));		
 			
-		unsigned int maxInt =  (unsigned int)maxElement;
 	
 
 		unsigned int maxDolina = 0;
@@ -196,7 +195,7 @@ void LocalMin::findLocalMaxIndexes( bool firstCall )
 			}			 
 			} 
 		}		
-		}
+		
 						
 
 }
