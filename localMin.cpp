@@ -6,7 +6,8 @@ using namespace std;
 LocalMin::LocalMin()
 {
 	initWideValley();
-	findLocalMinimumIndexes();
+	findLocalMaxIndexes();
+	printVector("localMaximumIndexesVector");
 
 }
 
@@ -18,6 +19,8 @@ LocalMin::~LocalMin()
 void LocalMin::initWideValley()
 {
 	valuesVector = { 1,0,3,5,4,0,1,2,1,3,0,1,2,0,1 };
+	printVector("valuesVector");
+
 }
 
 void LocalMin::initNarrowValley()
@@ -43,10 +46,14 @@ void LocalMin::initRandomValley()
 	}
 }
 
-void LocalMin::findLocalMinimumIndexes()
+//deafult value of function arg is true, I setted this in header file
+//funkcja bedzie wywoływana rekurencyjnie
+
+void LocalMin::findLocalMaxIndexes( bool firstCall )
 {
 	//znalezienie elementow ktorych sasiedzi maja mniejsze wartosci
-	
+	if( firstCall == true )
+	{	
 	int vectorItemSize = sizeof(unsigned int);
 	
 	//TODO think abot it
@@ -89,23 +96,89 @@ void LocalMin::findLocalMinimumIndexes()
 				localMaximumIndexesVector.push_back(it - valuesVector.begin() );	
 			}
 		}	
+		}
+		printVector("localMaximumIndexesVector");
+		findLocalMaxIndexes(false);
 
 	}
+	//ta czesc funkcji bedzie wywoływana rekurencyjnie	
+	else
+	{
+		unsigned int sizeBeforeCall = localMaximumIndexesVector.size();
+		
+		vector<unsigned int> newValueOfIndexVector; 
+		
+		for( auto it = localMaximumIndexesVector.begin(); it !=  localMaximumIndexesVector.end();++it)
+		{
+						
+			/*if( newValueOfIndexVector.size() ==  localMaximumIndexesVector.size() - 2  )
+			{
+				break;
+			}*/
+	
+			//jeżli obaj sąsiedzi są wyźsi to wyrzucamy indeks
+			//konczymy dzialanie gdy nic nie usunaeliśmy
+
+			//pierwszy element
+			if ( *it == 0  &&  sizeBeforeCall >  1 ) 
+			{
+				auto nextIndex = *(it+1);
+ 
+				if (  valuesVector[*it] >  valuesVector[nextIndex]  &&  valuesVector[*it] > 0 )
+				{
+					 newValueOfIndexVector.push_back(*it);
+				}
+			}
+			//ostatni element	
+			else if ( *it == localMaximumIndexesVector.size() - 1 && localMaximumIndexesVector.size() > 1 )
+			{
+				if ( valuesVector[*it] >  valuesVector[*(it-1)] &&  valuesVector[*it] > 0 ) 
+				{
+					 newValueOfIndexVector.push_back(*it);
+				}			
+			}
+
+			//elementy nie bedace skrajnymi
+			else
+			{
+				if( valuesVector[*it] > valuesVector[ *(it-1) ]  &&  valuesVector[*it] >  valuesVector[ *(it+1) ] )
+				{
+					newValueOfIndexVector.push_back(*it);
+				}	
+			}	
+		}
+
+		localMaximumIndexesVector.clear();
+		
+		localMaximumIndexesVector =  newValueOfIndexVector;		
+		
+		unsigned int currentSize =  localMaximumIndexesVector.size();
+
+		if  ( sizeBeforeCall != currentSize )
+		{
+			findLocalMaxIndexes(false);
+			//call itself
+		}
+		//koniec wywoływania rekurencji
+		
+	}
+
+
 } 
 //TODO think about smarter solution (generic,template)
 //aktualnie wystepuje dupikacja kodu :(
 
 void LocalMin::printVector(string vectorNameArg)
 {
-	if( vectorNameArg == "valuesVestor" )
+	if( vectorNameArg == "valuesVector" )
 	{
 		cout<<"\nvalues vector content:\n";
 		
-		for(auto item :valuesVector)
+		for(auto &item :valuesVector)
 		{
 			cout<<item<<endl;
 		}
-		cout<<"\nend of values vector\n";
+		cout<<"end of values vector\n";
 		
 	}
 	else if( vectorNameArg == "localMaximumIndexesVector" )
@@ -116,8 +189,7 @@ void LocalMin::printVector(string vectorNameArg)
 		{
 			cout<<item<<endl;
 		}
-		cout<<"\nend of values vector\n";
+		cout<<"end of values vector\n";
 	}	
-
 
 }

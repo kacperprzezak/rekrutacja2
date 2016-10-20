@@ -1,11 +1,13 @@
 #include <iostream>
+#include "localMin.h"
 
 using namespace std;
 
 int main()
 {
-	cout<<"Local minimum search\n";
-
+	cout<<"Main started!\n";
+	
+	LocalMin *localMin = new LocalMin(); 
 
 	return 0;
 }
