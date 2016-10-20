@@ -179,20 +179,34 @@ void LocalMin::findLocalMaxIndexes( bool firstCall )
 			if(itemIsMaximum)  
 			{
 			
-			//lewa dolina, mozna by zrobic te funkcjonalnosc lambda
-			//dodajemy kolejno rożnice danego maksimu i aktualnego elementu aż natrafimy na element wiekszy badz rowny naszemu aktulnemu
-			//maksimum lub doldziemy do konca przedzialu
-			//jesli po wykonaniu petli vartosc zmiennej aktualna dolina bedzie wieksza od maksymalna dolina to ustwiamy maxDolina na te wartosc   						
-			for(int j=i;j>=0;j--)
-			{
+				//lewa dolina, mozna by zrobic te funkcjonalnosc lambda
+				//dodajemy kolejno rożnice danego maksimu i aktualnego elementu aż natrafimy na element wiekszy badz rowny naszemu aktulnemu
+				//maksimum lub doldziemy do konca przedzialu
+				//jesli po wykonaniu petli vartosc zmiennej aktualna dolina bedzie wieksza od maksymalna dolina to ustwiamy maxDolina na te wartosc   						
+				for(int j=i;j>=0;j--)
+				{
+					int roznica = item - valuesVectorKopia[i];
+					
+
+					if(roznica > 0)
+					{
+						aktualnaDolina += roznica;
+					}
+					else
+					{
+						break;
+					}
+				}
+			 	//porowna aktualna dolina z max jesli wieksza ustaw max i wyzeruj aktualnaDolina
+
+				//prawa dolina
+				for(int j=i;j<valuesVectorKopia.size();j++)
+				{
 				
-			}
+				}
+				//porowna aktualna dolina z max jesli wieksza ustaw max i wyzeruj aktualnaDolina
+
 			 
-			//prawa dolina
-			for(int j=i;j<valuesVectorKopia.size();j++)
-			{
-				
-			}			 
 			} 
 		}		
 		
